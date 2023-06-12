@@ -1,13 +1,14 @@
-var data =  require("./fakeData");
+var data = require("./fakeData");
 
-module.exports =  function(req, res) {
-  
-    var id =  req.query.id;
+module.exports = function (req, res) {
+  let { name, job } = req.body;
+  let idReq = req.query.id;
 
-    const reg = data.find(d => id == id);
-    reg.name = req.body.name;
-    reg.job = req.body.job;
-
-    res.send(reg);
-
+  const reg = data.find(({ id }) => id == idReq);
+  if (!!reg) {
+    reg.name = name;
+    reg.job = job;
+    return res.send(reg);
+  }
+  return res.status(400).send("Usúario não atualizado");
 };
